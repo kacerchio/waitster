@@ -1,6 +1,7 @@
-'use strict';
-
-var app = angular.module('indexApp', []);
-
-app.controller('indexCtrl', indexCtrl);
-app.directive('headerBar', headerBar);
+angular.module('indexApp', [])
+    .directive('header', function(){
+        return {
+            restrict: 'E',
+            templateUrl: '../templates/headerDirective.html'
+        };
+    });
