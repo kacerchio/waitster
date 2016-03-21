@@ -1,33 +1,61 @@
 <!doctype html>
+
 <html lang="en">
-<head>
-  <title></title>
-  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/styles/main.css" type="text/css">
-</head>
 
+  <head>
 
-<body ng-app="waitsterApp">
-  
-  <h1>Waitster</h1>
-  <h2>Search for a restaurant. Find out the wait time.</h2>
-  Search: <input type="text" ng-model="searchBox">
+    <title>Waitster</title>
 
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!--<div class="list" ng-controller="mainCtrl">-->
-    <!--<div class="add">-->
-      <!--<a href="#" ng-click="addTodo()">-->
-        <!--+ Add a New Task</a>-->
-      <!--</div>-->
-    <!--<todo></todo>-->
-   <!--</div>-->
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="./styles/bootstrap.css"/>
+      <link rel="stylesheet" href="./styles/main.css" type="text/css">
 
-  
-  <script src="/vendor/angular.js"></script>
-  <script src="/scripts/app.js"></script>
-  <script src="/scripts/controllers/main.js"></script>
-  <script src="/scripts/controllers/todo.js"></script>
-  <script src="/scripts/services/data.js"></script>
-  <script src="/scripts/directives/todo.js"></script>
-</body>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+      <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+      <script src="./scripts/index.js"></script>
+
+  </head>
+
+  <body>
+
+    <div ng-app="indexApp">
+        <div ng-controller="indexCtrl">
+            <headerBar></headerBar>
+            <div id="wrapper">
+                <div class="navbar navbar-default navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <a class= "navbar-brand" href="#" title="Go to Waitster Home" style="color:white">
+                                waitster
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br><br>
+            <div class="container">
+                <h3>Welcome to waitster</h3>
+                <p>Search for a restaurant. Find out the wait time.</p>
+                <br>
+                <div class="col-sm-6 input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="search-input">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" id="search-btn">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./vendor/angular.ng-modules.js"></script>
+    <script src="./scripts/directives/headerDirective.js"></script>
+    <script src="./scripts/controllers/indexController.js"></script>
+    <script src="./scripts/app.js"></script>
+
+  </body>
+
 </html>
