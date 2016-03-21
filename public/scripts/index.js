@@ -6,7 +6,7 @@ $(document).ready(function(){
         var address = $("#search-input").val();
         $.getJSON(deliveryAPI + " &address=" + address, function(json) {
             alert("Got JSON Data");
-            console.log(json[Object.keys(json[0]);
+            console.log(json[Object.keys(json[0])]);
             console.log(json);
         });
     });
