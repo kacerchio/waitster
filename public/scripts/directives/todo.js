@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('todoListApp')
+angular.module('waitsterApp')
 .directive('todo', function(){
   return {
     templateUrl: 'templates/todo.html',
