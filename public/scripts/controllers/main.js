@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('todoListApp')
+angular.module('waitsterApp')
 .controller('mainCtrl', function($scope, dataService){
   
   dataService.getTodos(function(response){
