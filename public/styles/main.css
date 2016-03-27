@@ -6,10 +6,43 @@ body {
     margin-bottom: 60px;
 }
 
-h3 {
-    font-weight: 300;
+#homepage-body {
+    margin-top: 10%;
+    margin-left: 30%;
 }
 
 .navbar {
+    -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;
     background-color: #C0392B;
+    height: 70px;
+    border: none;
+}
+
+.navbar-brand {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+#search-btn {
+    font-family: "Open Sans", sans-serif;
+    border-color: #C0392B;
+    border-width: 2px;
+    color: #ffffff;
+    background-color: #C0392B;
+}
+
+#search-btn:hover {
+    background-color: #e74c3c;
+}
+
+#search-input {
+    -webkit-box-shadow: 0 8px 6px -6px #666666;
+    -moz-box-shadow: 0 8px 6px -6px #666666;
+    box-shadow: 0 8px 6px -6px #666666;
+}
+
+#search-results-body {
+    margin-top: 5%;
 }
