@@ -46,3 +46,7 @@ body {
 #search-results-body {
     margin-top: 5%;
 }
+
+.ratings{
+    text-align: right;
+}
