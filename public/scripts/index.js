@@ -9,7 +9,7 @@ function search() {
     if (validateAddress(query) == true) {
         var addressQuery = deliveryAPI + " &address=" + query;
         $.getJSON(addressQuery, function (json) {
-            alert("Got JSON Data");
+            alert("Got JSON response from delivery.com");
             var i;
             for (i = 0; i < json.merchants.length; i++) {
                 if (json.merchants[i]["summary"]["type_label"].localeCompare("Restaurant") == 0) {
@@ -17,6 +17,9 @@ function search() {
                     console.log("Last Delivery Time: " + json.merchants[i]["ordering"]["availability"]["last_delivery_time"]);
                 }
             }
+        })
+        .error(function() {
+            window.location.href = "../templates/errorMessage.html";
         });
     }
 }
