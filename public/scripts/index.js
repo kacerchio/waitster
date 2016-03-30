@@ -7,16 +7,22 @@ function search() {
     var query = $("#search-input").val();
 
     if (validateAddress(query) == true) {
+
         var addressQuery = deliveryAPI + " &address=" + query;
+
         $.getJSON(addressQuery, function (json) {
-            alert("Got JSON response from delivery.com");
-            var i;
+            var i, merchSummary;
+            var merchList = [];
             for (i = 0; i < json.merchants.length; i++) {
                 if (json.merchants[i]["summary"]["type_label"].localeCompare("Restaurant") == 0) {
-                    console.log(json.merchants[i]["summary"]);
-                    console.log("Last Delivery Time: " + json.merchants[i]["ordering"]["availability"]["last_delivery_time"]);
+                    //console.log(json.merchants[i]["summary"]);
+                    //console.log("Last Delivery Time: " + json.merchants[i]["ordering"]["availability"]["last_delivery_time"]);
+                    merchSummary = json.merchants[i]["summary"];
+                    merchList.push(merchSummary);
                 }
+                window.location.href = "../templates/searchResults.html";
             }
+            sessionStorage.setItem("merchants", JSON.stringify(merchList));
         })
         .error(function() {
             window.location.href = "../templates/errorMessage.html";

@@ -17,7 +17,6 @@
       <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
 
-      <script src="./scripts/index.js"></script>
       <script src="./vendor/angular.ng-modules.js"></script>
       <script src="scripts/indexApp.js"></script>
 
@@ -43,21 +42,25 @@
   <body>
 
     <div ng-app="indexApp">
+        <div id="overlay"></div>
         <header></header>
         <br><br><br>
-        <div class="container" id="homepage-body">
-            <h2>Welcome to <strong style="color: #C0392B">waitster</strong></h2>
+        <div class="panel panel-default col-md-7 col-centered" id="homepage-panel">
+            <h2>Welcome to <strong style="color:#c0392b;">waitster</strong></h2>
             <p>Search for a restaurant. Find out the wait time.</p>
             <br>
-            <div class="col-sm-6 input-group" id="search-bar">
-                <input type="text" class="form-control" placeholder="Street Address, City, State" id="search-input">
+            <div class="col-sm-10 input-group" id="search-bar">
+                <input type="text" class="form-control box-shadow--3dp" placeholder="Street Address, City, State" id="search-input">
                 <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit" id="search-btn" onclick="search();">Search</button>
+                    <button class="btn btn-default box-shadow--3dp" type="submit" id="search-btn" onclick="search();">Search</button>
                 </div>
                 <p id="location-tracker"></p>
             </div>
         </div>
     </div>
+
+    <script src="./scripts/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/handlebarsjs/4.0.5/handlebars.min.js"></script>
 
   </body>
 

@@ -1,62 +1,52 @@
-sea<!doctype html>
+<!doctype html>
 
 <html lang="en">
 
-<head>
+    <head>
 
-    <title>Search Results</title>
+        <title>Search Results</title>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="../styles/bootstrap.css"/>
-    <link rel="stylesheet" href="../styles/main.css" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="../styles/bootstrap.css"/>
+        <link rel="stylesheet" href="../styles/main.css" type="text/css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+        <script src="../scripts/index.js"></script>
+        <script src="../scripts/searchResults.js"></script>
 
-    <script src="../scripts/index.js"></script>
-    <script src="../vendor/angular.ng-modules.js"></script>
-    <script src="../scripts/indexApp.js"></script>
+        <script src="../vendor/angular.ng-modules.js"></script>
+        <script src="../scripts/indexApp.js"></script>
 
-    <style>
-    </style>
+    </head>
 
-</head>
+    <body>
 
-<body>
-
-<div ng-app="indexApp">
-    <header></header>
-    <br><br><br>
-    <div class="container" id="search-results-body">
-        <!--<h2>Search Results</h2>-->
-    </div>
-
-    <div class="col-sm-6 input-group" id="search-bar" style="margin-left:50px;width:600px;margin-bottom:30px;">
-        <input type="text" class="form-control" placeholder="Street Address, City, State" id="search-input">
-        <div class="input-group-btn">
-            <button class="btn btn-default" type="submit" id="search-btn">Search</button>
+    <div ng-app="indexApp">
+        <header></header>
+        <br><br><br>
+        <div class="container" id="search-results-content">
+            <h2>Wait times for restaurants near you.</h2>
+            <br><br>
+            <template id="restaurant-card-template">
+                <div class="panel panel-default" id="restaurant-card">
+                    <div class="panel-heading">
+                        <a href="#"><h4 id="restaurant-name"></h4></a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="wait-time">wait time goes here</div>
+                        <div class="rating">ratings go here</div>
+                        <div class="address">address goes here</div>
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 
-    <h2 style="margin-left:50px;">Wait times for food.</h2>
-
-    <div class="panel panel-default" style="width:600px;margin-left: 50px;">
-        <div class="panel-heading">
-            <h3 class="panel-title restaurant_name">Restaurant Name</h3>
-        </div>
-        <div class="panel-body">
-            <div class="Wait_Time">wait time goes here</div>
-            <div class="Ratings">ratings go here</div>
-            <div class="Address">address goes here</div>
-        </div>
-    </div>
-</div>
-
-
-</body>
+    </body>
 
 </html>
