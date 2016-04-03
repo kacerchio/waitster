@@ -22,6 +22,23 @@
         <script src="../vendor/angular.ng-modules.js"></script>
         <script src="../scripts/indexApp.js"></script>
 
+        <style>
+
+            a:hover {
+                text-decoration: none;
+            }
+
+            h5 {
+                font-weight: 600;
+            }
+
+            h3 {
+                font-size: 16px;
+                font-weight: 300;
+            }
+
+        </style>
+
     </head>
 
     <body>
@@ -31,16 +48,30 @@
         <br><br><br>
         <div class="container" id="search-results-content">
             <h2>Wait times for restaurants near you.</h2>
+            <h3 id="num-results"></h3>
             <br><br>
             <template id="restaurant-card-template">
                 <div class="panel panel-default" id="restaurant-card">
-                    <div class="panel-heading">
-                        <a href="#"><h4 id="restaurant-name"></h4></a>
-                    </div>
                     <div class="panel-body">
-                        <div class="wait-time">wait time goes here</div>
-                        <div class="rating">ratings go here</div>
-                        <div class="address">address goes here</div>
+                        <table id="card-content">
+                            <tr>
+                                <td>
+                                    <img alt="img" src="" id="merch-logo">
+                                </td>
+                                <td>
+                                    <a href="#"><h4 id="restaurant-name"></h4></a>
+                                    <h5 id="location"></h5>
+                                    <h5 id="phone-number"></h5>
+                                </td>
+                                <td>
+                                    <p id="rating"></p>
+                                </td>
+                            </tr>
+                        </table>
+                        <div id="wait-time-status" style="float:right; display:inline;">
+                            <p style="color:#FFFFFF; font-weight:300;">EST. WAIT</p>
+                            <h4 id="wait-time"></h4>
+                        </div>
                     </div>
                 </div>
             </template>

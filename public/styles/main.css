@@ -19,6 +19,15 @@ body {
     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12)
 }
 
+#card-content {
+    float: left;
+}
+
+#card-content td {
+    padding: 0px 20px 0px 20px;
+    vertical-align: middle;
+}
+
 .col-centered{
     float: none;
     margin: 0 auto;
@@ -58,6 +67,10 @@ h2 {
     font-size: 20px;
 }
 
+#merch-logo {
+    height: 110px;
+}
+
 #overlay {
     position: absolute;
     top: 0;
@@ -70,6 +83,15 @@ h2 {
 
 .ratings{
     text-align: right;
+}
+
+#restaurant-card {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#restaurant-card:hover {
+    background-color: #faf2cc;
 }
 
 #return-to-search-btn {
@@ -91,6 +113,8 @@ h2 {
     border-width: 2px;
     color: #FFFFFF;
     background-color: #c0392b;
+    height: 50px;
+    width: 100px;
 }
 
 #search-btn:hover {
@@ -98,6 +122,28 @@ h2 {
     background-color: #e74c3c;
 }
 
+#search-input {
+    height: 50px;
+}
+
 #search-results-content {
     margin-top: 100px;
+}
+
+#valid-address-alert {
+    height: 40px;
+}
+
+#wait-time {
+    color: #FFFFFF;
+    text-align: center;
+}
+
+#wait-time-status {
+    text-align: center;
+    height: 100px;
+    background-color: #95a5a6;
+    border-radius: 8px;
+    padding: 25px 10px 10px 10px;
+    margin-top: 5px;
 }

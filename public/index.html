@@ -49,7 +49,11 @@
             <h2>Welcome to <strong style="color:#c0392b;">waitster</strong></h2>
             <p>Search for a restaurant. Find out the wait time.</p>
             <br>
-            <div class="col-sm-10 input-group" id="search-bar">
+            <div class="alert alert-warning col-sm-10" style="display:none;" id="valid-address-alert">
+                <a href="#" class="close fade in" data-dismiss="alert" aria-label="close" style="margin-top:-5px;">&times;</a>
+                <p style="font-size:12px; margin-top:-5px;"><strong>Warning!</strong> Please ensure that a street number is specified with the street name.</p>
+            </div>
+            <div class="col-sm-10 input-group" id="content">
                 <input type="text" class="form-control box-shadow--3dp" placeholder="Street Address, City, State" id="search-input">
                 <div class="input-group-btn">
                     <button class="btn btn-default box-shadow--3dp" type="submit" id="search-btn" onclick="search();">Search</button>
