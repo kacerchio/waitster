@@ -29,9 +29,9 @@ function search() {
             window.location.href = "../templates/searchResults.html";
             sessionStorage.setItem("merchants", JSON.stringify(merchList));
         })
-        .error(function() {
-            window.location.href = "../templates/errorMessage.html";
-        });
+         .error(function() {
+             window.location.href = "../templates/errorMessage.html";
+         });
     }
 }
 
