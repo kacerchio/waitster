@@ -1,8 +1,9 @@
+var mongoose = require('mongoose');
+
 $(document).ready(
     onLoadHandler
 );
 
-var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var restaurantSchema = new Schema({
@@ -26,7 +27,7 @@ var restaurantSchema = new Schema({
     }
 
 
-})
+});
 
 function onLoadHandler(){
 
@@ -35,7 +36,7 @@ function onLoadHandler(){
     var numResults = merch.length;
     document.getElementById("num-results").innerText = numResults + " results found";
 
-
+    var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
     for (var i = 0; i < merch.length; i++) {
 
@@ -72,7 +73,6 @@ function onLoadHandler(){
 
                     content.appendChild(template);
 
-                    var Restaurant = mongoose.model('Restaurant', restaurantSchema);
                     var r = new Restaurant;
                     r.name = name;
                     r.id = id;
