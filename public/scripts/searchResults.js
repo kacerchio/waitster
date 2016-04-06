@@ -1,108 +1,104 @@
-var mongoose = require('mongoose');
-
 $(document).ready(
     onLoadHandler
 );
 
-var Schema = mongoose.Schema;
+var merch = JSON.parse(sessionStorage.getItem("merchants"));
 
-var restaurantSchema = new Schema({
+// This works on all devices/browsers, and uses IndexedDBShim as a final fallback
+var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+if (!window.indexedDB) {
+    window.alert("Your browser doesn't support a stable version of IndexedDB.")
+}
 
-    name: String,
-    id: Number,
-    location: String,
-    phoneNumber: String,
-    logoURL: String,
-    waitTime: Number,
-    rating: Number,
-    isOpen: Boolean,
-    hours: {
-        sunday: {start: String, end: String},
-        monday: {start: String, end: String},
-        tuesday: {start: String, end: String},
-        wednesday: {start: String, end: String},
-        thursday: {start: String, end: String},
-        friday: {start: String, end: String},
-        saturday: {start: String, end: String}
+// Open (or create) the database
+var request = indexedDB.open("RestaurantDB", 1);
+
+// Create the schema
+request.onupgradeneeded = function(e) {
+    var db = e.target.result;
+    var store = db.createObjectStore("restaurants", {keyPath: "id"});
+    //store.clear();
+    store.createIndex("name", "name", {unique : false});
+    store.createIndex("location", "location", {unique : true});
+    store.createIndex("phoneNumber", "phoneNumber", {unique : true});
+    store.createIndex("logoURL", "logoURL", {unique : true});
+    store.createIndex("waitTime", "waitTime", {unique: true});
+    store.createIndex("rating", "rating", {unique : false});
+    store.createIndex("isOpen", "isOpen", {unique : false});
+    store.createIndex("hours",
+        ["hours.sunSt", "hours.sunEd", "hours.monSt", "hours.monEd",
+            "hours.tueSt", "hours.tueEd", "hours.wedSt", "hours.wedEd", "hours.thurSt", "hours.thurEd",
+            "hours.friSt", "hours.friEd", "hours.satSt", "hours.satEd"],
+        {unique : false, multiEntry: true});
+};
+
+request.onsuccess = function(e) {
+
+    for (var j = 0; j < merch.length; j++) {
+        var street = merch[j]["location"]["street"];
+        var state = merch[j]["location"]["state"];
+        var city = merch[j]["location"]["city"];
+        var zip = merch[j]["location"]["zip"];
+        var location = street + "\n" + city + ", " + state + " " + zip;
+
+        var rest = {
+            "id": merch[j]["id"],
+            "name": merch[j]["summary"]["name"],
+            "location": location,
+            "phoneNumber": merch[j]["summary"]["phone"],
+            "logoURL": merch[j]["summary"]["merchant_logo"],
+            "waitTime": merch[j]["ordering"]["availability"]["delivery_estimate"],
+            "rating": merch[j]["summary"]["star_ratings"],
+            "isOpen": merch[j]["summary"]["is_open"]
+        };
+
+        var db = e.target.result;
+        var tx = db.transaction(["restaurants"], "readwrite");
+        var store = tx.objectStore("restaurants");
+        var count = store.count();
+
+        store.put(rest);
     }
 
+    tx.oncomplete = function() {
+        console.log(count.result);
+        db.close();
+    }
 
-});
+};
 
 function onLoadHandler(){
 
-    var merch = JSON.parse(sessionStorage.getItem("merchants"));
-
     var numResults = merch.length;
     document.getElementById("num-results").innerText = numResults + " results found";
-
-    var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
     for (var i = 0; i < merch.length; i++) {
 
         var content = document.getElementById("search-results-content");
         var template = document.getElementById("restaurant-card-template").content.cloneNode(true);
 
-        var id = merch[i]['id'];
+        var name =  merch[i]["summary"]["name"];
+        template.querySelector("#restaurant-name").innerText = name;
 
-        var query = Restaurant.findOne({'id':id});
+        var street = merch[i]["location"]["street"];
+        var state = merch[i]["location"]["state"];
+        var city = merch[i]["location"]["city"];
+        var zip = merch[i]["location"]["zip"];
+        var location = street + "\n" + city + ", " + state + " " + zip;
+        template.querySelector("#location").innerText = location;
 
-        query.exec(function (err, restaurant) {
-                if (err) {
-                    var name = merch[i]["summary"]["name"];
-                    template.querySelector("#restaurant-name").innerText = name;
+        var phoneNumber = merch[i]["summary"]["phone"];
+        template.querySelector("#phone-number").innerText = phoneNumber;
 
-                    var street = merch[i]["location"]["street"];
-                    var state = merch[i]["location"]["state"];
-                    var city = merch[i]["location"]["city"];
-                    var zip = merch[i]["location"]["zip"];
-                    var location = street + "\n" + city + ", " + state + " " + zip;
-                    template.querySelector("#location").innerText = location;
+        var merchLogoPath = merch[i]["summary"]["merchant_logo"];
+        template.querySelector("#merch-logo").src = merchLogoPath;
 
-                    var phoneNumber = merch[i]["summary"]["phone"];
-                    template.querySelector("#phone-number").innerText = phoneNumber;
+        var deliveryEstimate = merch[i]["ordering"]["availability"]["delivery_estimate"];
+        template.querySelector("#wait-time").innerText = deliveryEstimate + " mins";
 
-                    var merchLogoPath = merch[i]["summary"]["merchant_logo"];
-                    template.querySelector("#merch-logo").src = merchLogoPath;
+        var rating =  merch[i]["summary"]["star_ratings"];
+        template.querySelector("#rating").innerText = "Rating: " + rating;
 
-                    var deliveryEstimate = merch[i]["ordering"]["availability"]["delivery_estimate"];
-                    template.querySelector("#wait-time").innerText = deliveryEstimate + " mins";
-
-                    var rating = merch[i]["summary"]["star_ratings"];
-                    template.querySelector("#rating").innerText = "Rating: " + rating;
-
-                    content.appendChild(template);
-
-                    var r = new Restaurant;
-                    r.name = name;
-                    r.id = id;
-                    r.location = location;
-                    r.phoneNumber = phoneNumber;
-                    r.logoURL = merchLogoPath;
-                    r.waitTime = deliveryEstimate;
-                    r.rating = rating;
-                    //r.isOpen = isOpen;
-                    // r.hours.sunday = {sunStart, sunEnd};
-                    // r.hours.monday = {monStart, monEnd};
-                    // r.hours.tuesday = {tuesStart, tuesEnd};
-                    // r.hours.wednesday = {wedStart, wedEnd};
-                    // r.hours.thursday = {thursStart, thursEnd};
-                    // r.hours.friday = {friStart, friEnd};
-                    // r.hours.saturday = {satStart, satEnd};
-
-                    r.save(callback);
-                    console.log(r);
-                }
-
-                else {
-                    var deliveryEstimate = merch[i]["ordering"]["availability"]["delivery_estimate"];
-                    template.querySelector("#wait-time").innerText = deliveryEstimate + " mins";
-                    query.update({waitTime: deliveryEstimate});
-
-                }
-        });
+        content.appendChild(template);
     }
-
-
-
 }

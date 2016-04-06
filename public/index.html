@@ -16,11 +16,10 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
       <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
-      <script type="text/javascript" src="//d1l4stvdmqmdzl.cloudfront.net/3.9.6/mongoose.js"></script>
 
-      <script src="./scripts/index.js"></script>
       <script src="./vendor/angular.ng-modules.js"></script>
       <script src="scripts/indexApp.js"></script>
+      <script src="scripts/index.js"></script>
 
       <style>
           body {
@@ -41,30 +40,25 @@
 
   </head>
 
-  <body>
-
-    <div ng-app="indexApp">
-        <div id="overlay"></div>
-        <header></header>
-        <br><br><br>
-        <div class="panel panel-default col-md-7 col-centered" id="homepage-panel">
-            <h2>Welcome to <strong style="color:#c0392b;">waitster</strong></h2>
-            <p>Search for a restaurant. Find out the wait time.</p>
-            <br>
-            <div class="alert alert-warning col-sm-10" style="display:none;" id="valid-address-alert">
-                <a href="#" class="close fade in" data-dismiss="alert" aria-label="close" style="margin-top:-5px;">&times;</a>
-                <p style="font-size:12px; margin-top:-5px;"><strong>Warning!</strong> Please ensure that a street number is specified with the street name.</p>
-            </div>
-            <div class="col-sm-10 input-group" id="content">
-                <input type="text" class="form-control box-shadow--3dp" placeholder="Street Address, City, State" id="search-input">
-                <div class="input-group-btn">
-                    <button class="btn btn-default box-shadow--3dp" type="submit" id="search-btn" onclick="search();">Search</button>
-                </div>
-                <p id="location-tracker"></p>
+  <body ng-app="indexApp">
+    <div id="overlay"></div>
+    <header></header>
+    <br><br><br>
+    <div class="panel panel-default col-md-7 col-centered" id="homepage-panel">
+        <h2>Welcome to <strong style="color:#c0392b;">waitster</strong></h2>
+        <p>Search for a restaurant. Find out the wait time.</p>
+        <br>
+        <div class="alert alert-warning col-sm-10" style="display:none;" id="valid-address-alert">
+            <a href="#" class="close fade in" data-dismiss="alert" aria-label="close" style="margin-top:-5px;">&times;</a>
+            <p style="font-size:12px; margin-top:-5px;"><strong>Warning!</strong> Please ensure that a street number is specified with the street name.</p>
+        </div>
+        <div class="col-sm-10 input-group" id="content">
+            <input type="text" class="form-control box-shadow--3dp" placeholder="Street Address, City, State" id="search-input">
+            <div class="input-group-btn">
+                <button class="btn btn-default box-shadow--3dp" type="submit" id="search-btn" onclick="search();">Search</button>
             </div>
         </div>
     </div>
-
   </body>
 
 </html>
