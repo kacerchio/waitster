@@ -2,28 +2,57 @@ $(document).ready(
     loadLocation
 );
 
+var merchInfo;
+var merchList = [];
+var j = 0;
+var jj = 0;
+
 function search() {
-    var deliveryAPI = "https://api.delivery.com/merchant/search/delivery?client_id=YTExMWZlN2E1MTE4YjI1MGM4MzFlYzkzMTM5YzBkN2Uy";
+
+    window.sessionStorage.clear();
+    var deliveryAPI = "https://api.delivery.com/merchant/search/delivery?client_id=YTExMWZlN2E1MTE4YjI1MGM4MzFlYzkzMTM5YzBkN2Uy&merchant_type=R";
     var query = $("#search-input").val();
-    var addressQuery = deliveryAPI + " &address=" + query;
+    var addressQuery = deliveryAPI + "&address=" + query;
 
     if (validateAddress(query)) {
         $.getJSON(addressQuery, function (json) {
-            var i, merchInfo;
-            var merchList = [];
-            for (i = 0; i < json.merchants.length; i++) {
-                if (json.merchants[i]["summary"]["type_label"].localeCompare("Restaurant") == 0) {
-                    merchInfo = json.merchants[i];
-                    merchList.push(merchInfo);
-                }
+            var i;
+            if (json.merchants.length == 0) {
+                window.location.href = "../templates/errorMessage.html";
             }
-            window.location.href = "../templates/searchResults.html";
-            sessionStorage.setItem("merchants", JSON.stringify(merchList));
+            else {
+                for (i = 0; i < json.merchants.length; i++) {
+                    jj++;
+                    merchInfo = json.merchants[i];
+                    getHours(merchInfo.id, merchInfo, merchList);
+                }
+                $("#loading").modal("show");
+            }
         })
          .error(function() {
              window.location.href = "../templates/errorMessage.html";
          });
     }
+}
+
+function getHours(id, merchInfo, merchList) {
+    var hours = "https://api.delivery.com/merchant/" + id + "/hours?client_id=YTExMWZlN2E1MTE4YjI1MGM4MzFlYzkzMTM5YzBkN2Uy";
+    $.getJSON(hours, function (json) {
+        merchInfo.hours = json["current_schedule"]["business"];
+        merchList.push(merchInfo);
+        window.sessionStorage.setItem("merchants", JSON.stringify(merchList));
+    })
+    .done(function() {
+        j++;
+        if (j == jj) {
+            window.location.href = "../templates/searchResults.html";
+        }
+        else {
+            console.log("updating progress bar");
+            var width = $("#progress-bar").width();
+            $("#progress-bar").css('width', ((j/jj) * 100) + "%");
+        }
+    })
 }
 
 function isNumeric(str){
@@ -63,5 +92,3 @@ function loadLocation() {
         alert("Geolocation is not supported by this browser.");
     }
 }
-
-

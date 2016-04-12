@@ -10,17 +10,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="../styles/bootstrap.css"/>
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+        <link href="../styles/bootstrap-star-rating/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="../styles/main.css" type="text/css">
+        <link rel="icon" href="../styles/img/waitster-favicon.png" sizes="16x16">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
         <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
-        <script type="text/javascript" src="//d1l4stvdmqmdzl.cloudfront.net/3.9.6/mongoose.js"></script>
-        <script src="../scripts/index.js"></script>
-        <script src="../scripts/searchResults.js"></script>
+
         <script src="../vendor/angular.ng-modules.js"></script>
         <script src="../scripts/indexApp.js"></script>
+        <script src="../scripts/index.js"></script>
+        <script src="../scripts/searchResults.js"></script>
+        <script src="../styles/bootstrap-star-rating/js/star-rating.js" type="text/javascript"></script>
 
         <style>
 
@@ -60,15 +63,20 @@
                                 </td>
                                 <td>
                                     <a href="#"><h4 id="restaurant-name"></h4></a>
-                                    <h5 id="location"></h5>
-                                    <h5 id="phone-number"></h5>
+                                    <p id="rating"></p>
+                                    <input id="rating-stars" class="rating rating-loading" value="0" data-min="0" data-max="5" data-step="0.5" data-size="xs" data-readonly="true" data-show-clear="false" data-show-caption="true">
+                                    <p id="price-rating" style="font-size:16px; font-weight:600s"></p>
                                 </td>
                                 <td>
-                                    <p id="rating"></p>
+                                    <p id="location"></p>
+                                    <p id="phone-number"></p>
+                                </td>
+                                <td>
+                                    <p id="hours"></p>
                                 </td>
                             </tr>
                         </table>
-                        <div id="wait-time-status" style="float:right; display:inline;">
+                        <div id="wait-time-status">
                             <p style="color:#FFFFFF; font-weight:300;">EST. WAIT</p>
                             <h4 id="wait-time"></h4>
                         </div>
