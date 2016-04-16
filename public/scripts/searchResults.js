@@ -12,26 +12,29 @@ if (!window.indexedDB) {
 }
 
 // Open (or create) the database
-var request = indexedDB.open("RestaurantDB", 1);
+var request = indexedDB.open("RestaurantDB", 3);
 
 // Create the schema
 request.onupgradeneeded = function(e) {
     var db = e.target.result;
-    var store = db.createObjectStore("restaurants", {keyPath: "id"});
-    store.createIndex("name", "name", {unique : false});
-    store.createIndex("location", "location", {unique : true});
-    store.createIndex("phoneNumber", "phoneNumber", {unique : true});
-    store.createIndex("logoURL", "logoURL", {unique : true});
-    store.createIndex("waitTime", "waitTime", {unique: true});
-    store.createIndex("rating", "rating", {unique : false});
-    store.createIndex("priceRating", "priceRating", {unique : false});
-    store.createIndex("isOpen", "isOpen", {unique : false});
-    store.createIndex("hours", "hours", {unique : false, multiEntry: true});
+    var store = db.createObjectStore("rests", {keyPath: "id"});
+    store.createIndex("by_name", "name");
+    store.createIndex("by_location", "location");
+    store.createIndex("by_phone", "phone");
+    store.createIndex("by_logoURL", "logoURL");
+    store.createIndex("by_waitTime", "waitTime");
+    store.createIndex("by_rating", "rating");
+    store.createIndex("by_priceRating", "priceRating");
+    store.createIndex("by_isOpen", "isOpen");
+    store.createIndex("by_hours", "hours", {multientry: true});
+
+    db.deleteObjectStore("restaurants");
 };
 
 request.onsuccess = function(e) {
 
     for (var j = 0; j < merch.length; j++) {
+
         var street = merch[j]["location"]["street"];
         var state = merch[j]["location"]["state"];
         var city = merch[j]["location"]["city"];
@@ -43,7 +46,7 @@ request.onsuccess = function(e) {
             "id": merch[j]["id"],
             "name": merch[j]["summary"]["name"],
             "location": location,
-            "phoneNumber": merch[j]["summary"]["phone"],
+            "phone": merch[j]["summary"]["phone"],
             "logoURL": merch[j]["summary"]["merchant_logo"],
             "waitTime": merch[j]["ordering"]["availability"]["delivery_estimate"],
             "rating": merch[j]["summary"]["star_ratings"],
@@ -53,19 +56,31 @@ request.onsuccess = function(e) {
         };
 
         var db = e.target.result;
-        var tx = db.transaction(["restaurants"], "readwrite");
-        var store = tx.objectStore("restaurants");
-        var count = store.count();
+        var tx = db.transaction(["rests"], "readwrite");
 
-        store.put(rest);
+        tx.oncomplete = function(e) {
+            console.log("Transaction completed: database modification finished.")
+        };
 
+        tx.onerror = function(e) {
+            console.log("Transaction not opened due to error: Duplicate items not allowed.");
+        };
+
+        var store = tx.objectStore("rests");
+        var put = store.put(rest);
+
+        put.onsuccess = function(e) {
+            console.log("Success adding item!");
+        };
+
+        put.onerror = function(e) {
+            console.error("Error Adding an item: ", e);
+        };
     }
+};
 
-    tx.oncomplete = function() {
-        console.log(count.result);
-        db.close();
-    }
-
+request.onerror = function() {
+    console.log(request.error);
 };
 
 function onLoadHandler(){
@@ -89,6 +104,17 @@ function onLoadHandler(){
             template.querySelector("#price-rating").innerText += "$";
             priceRating -= 1;
         }
+        template.querySelector("#price-rating").innerText += " | ";
+
+        var isOpen = merch[i]["ordering"]["is_open"];
+        if (isOpen == true) {
+            template.querySelector("#is-open").innerText += "OPEN";
+            template.querySelector("#is-open").style.color = "#27ae60";
+        }
+        else {
+            template.querySelector("#is-open").innerText = "FALSE";
+            template.querySelector("#is-open").style.color = "#c0392b";
+        }
 
         var street = merch[i]["location"]["street"];
         var state = merch[i]["location"]["state"];
@@ -99,6 +125,7 @@ function onLoadHandler(){
 
         var phoneNumber = merch[i]["summary"]["phone"];
         template.querySelector("#phone-number").innerText = "Tel: " + phoneNumber;
+
 
         var merchLogoPath = merch[i]["summary"]["merchant_logo"];
         template.querySelector("#merch-logo").src = merchLogoPath;

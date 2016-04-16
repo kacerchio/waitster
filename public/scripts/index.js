@@ -48,7 +48,6 @@ function getHours(id, merchInfo, merchList) {
             window.location.href = "../templates/searchResults.html";
         }
         else {
-            console.log("updating progress bar");
             var width = $("#progress-bar").width();
             $("#progress-bar").css('width', ((j/jj) * 100) + "%");
         }
