@@ -5,6 +5,9 @@ $(document).ready(
 var merch = JSON.parse(window.sessionStorage.getItem("merchants"));
 console.log(merch);
 
+var userAddress = JSON.parse(window.sessionStorage.getItem("userAddress"));
+console.log(userAddress);
+
 // This works on all devices/browsers, and uses IndexedDBShim as a final fallback
 var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 if (!window.indexedDB) {
