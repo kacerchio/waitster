@@ -3,10 +3,7 @@ $(document).ready(
 );
 
 var merch = JSON.parse(window.sessionStorage.getItem("merchants"));
-console.log(merch);
-
-var userAddress = JSON.parse(window.sessionStorage.getItem("userAddress"));
-console.log(userAddress);
+//console.log(merch);
 
 // This works on all devices/browsers, and uses IndexedDBShim as a final fallback
 var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
@@ -43,7 +40,8 @@ request.onsuccess = function(e) {
         var city = merch[j]["location"]["city"];
         var zip = merch[j]["location"]["zip"];
         var location = street + "\n" + city + ", " + state + " " + zip;
-
+        var deliveryTime = merch[j]["ordering"]["availability"]["delivery_estimate"];
+        waitTime = calcWaitTime(location,deliveryTime);
         //console.log(merch[j]);
         var rest = {
             "id": merch[j]["id"],
@@ -52,7 +50,7 @@ request.onsuccess = function(e) {
             "phone": merch[j]["summary"]["phone"],
             "logoURL": merch[j]["summary"]["merchant_logo"],
             "headerURL": merch[j]["summary"]["header_images"][0]["path"],
-            "waitTime": merch[j]["ordering"]["availability"]["delivery_estimate"],
+            "waitTime": waitTime,
             "rating": merch[j]["summary"]["star_ratings"],
             "priceRating": merch[j]["summary"]["price_rating"],
             "isOpen": merch[j]["ordering"]["is_open"],
@@ -64,7 +62,7 @@ request.onsuccess = function(e) {
         var tx = db.transaction(["rests"], "readwrite");
 
         tx.oncomplete = function(e) {
-            console.log("Transaction completed: database modification finished.")
+          //  console.log("Transaction completed: database modification finished.")
         };
 
         tx.onerror = function(e) {
@@ -75,7 +73,7 @@ request.onsuccess = function(e) {
         var put = store.put(rest);
 
         put.onsuccess = function(e) {
-            console.log("Success adding item!");
+           // console.log("Success adding item!");
         };
 
         put.onerror = function(e) {
@@ -87,6 +85,31 @@ request.onsuccess = function(e) {
 request.onerror = function() {
     console.log(request.error);
 };
+
+var time;
+
+function calcWaitTime(location,deliveryTime){
+    //console.log(time);
+    var userAddress = window.sessionStorage.getItem("userAddress");
+    var googleAPIlink1 = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=';
+    var googleAPIlink2 = '&destinations=';
+    var googleAPIkey = '&key=AIzaSyCHicI9EkQxA2_c1lr4NYmDsOV7ss0JbJw';
+    var restaurantAddress = location;
+    var distanceQuery = googleAPIlink1 + userAddress + googleAPIlink2 + restaurantAddress + googleAPIkey;
+    $.ajax({
+        async: false,
+        url: distanceQuery,
+        success: function(json) {
+        time = json.rows[0]["elements"][0]['duration']['value'];
+        time = Math.floor(time / 60);
+
+    }
+});
+    if (deliveryTime - time > 0){
+        return deliveryTime-time;
+    }
+    return deliveryTime;
+}
 
 function onLoadHandler(){
 
@@ -134,9 +157,10 @@ function onLoadHandler(){
 
         var merchLogoPath = merch[i]["summary"]["merchant_logo"];
         template.querySelector("#merch-logo").src = merchLogoPath;
-
+    
         var deliveryEstimate = merch[i]["ordering"]["availability"]["delivery_estimate"];
-        template.querySelector("#wait-time").innerText = deliveryEstimate + " mins";
+        waitTime = calcWaitTime(location, deliveryEstimate);
+        template.querySelector("#wait-time").innerText = waitTime + " mins";
 
         content.appendChild(template);
     }
