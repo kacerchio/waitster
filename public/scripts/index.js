@@ -63,12 +63,6 @@ function validateAddress(address) {
     return regexp.test(address);
 }
 
-$("#search-input").keyup(function(event){
-    if(event.keyCode == 13){
-        $("#search-btn").click();
-    }
-});
-
 var googleAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
 var googleKey = "&key=AIzaSyCnbPRMgv_MDYaPqiq2mVYIpWUy-m_k3Jc";
 var lat, lng, address;

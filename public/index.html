@@ -22,6 +22,16 @@
       <script src="scripts/indexApp.js"></script>
       <script src="scripts/index.js"></script>
 
+      <script>
+          $(document).ready(function() {
+              $('#search-input').keypress(function(e) {
+                  if(e.keyCode == 13) {
+                      $('#search-btn').click();
+                  }
+              });
+          });
+      </script>
+
       <style>
 
           body {
@@ -44,6 +54,7 @@
   </head>
 
   <body ng-app="indexApp">
+
     <div id="overlay"></div>
     <header></header>
     <br><br><br>
@@ -74,6 +85,7 @@
             </div>
         </div>
     </div>
+
   </body>
 
 </html>

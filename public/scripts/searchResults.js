@@ -3,7 +3,7 @@ $(document).ready(
 );
 
 var merch = JSON.parse(window.sessionStorage.getItem("merchants"));
-//console.log(merch);
+console.log(merch);
 
 // This works on all devices/browsers, and uses IndexedDBShim as a final fallback
 var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
@@ -22,13 +22,13 @@ request.onupgradeneeded = function(e) {
     store.createIndex("by_location", "location");
     store.createIndex("by_phone", "phone");
     store.createIndex("by_logoURL", "logoURL");
+    store.createIndex("by_headerURL", "headerURL");
     store.createIndex("by_waitTime", "waitTime");
     store.createIndex("by_rating", "rating");
     store.createIndex("by_priceRating", "priceRating");
     store.createIndex("by_isOpen", "isOpen");
     store.createIndex("by_hours", "hours", {multientry: true});
-
-    db.deleteObjectStore("restaurants");
+    store.createIndex("by_cuisines", "cuisines", {multientry: true});
 };
 
 request.onsuccess = function(e) {
@@ -48,11 +48,13 @@ request.onsuccess = function(e) {
             "location": location,
             "phone": merch[j]["summary"]["phone"],
             "logoURL": merch[j]["summary"]["merchant_logo"],
+            "headerURL": merch[j]["summary"]["header_images"][0]["path"],
             "waitTime": merch[j]["ordering"]["availability"]["delivery_estimate"],
             "rating": merch[j]["summary"]["star_ratings"],
             "priceRating": merch[j]["summary"]["price_rating"],
             "isOpen": merch[j]["ordering"]["is_open"],
-            "hours": merch[j]["hours"]
+            "hours": merch[j]["hours"],
+            "cuisine": merch[j]["summary"]["cuisines"]
         };
 
         var db = e.target.result;

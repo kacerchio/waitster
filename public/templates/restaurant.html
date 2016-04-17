@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html lang="en">
+
+    <head>
+
+        <title>Restaurant</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+        <link href="../styles/bootstrap-star-rating/css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="../styles/main.css" type="text/css">
+        <link rel="icon" href="../styles/img/waitster-favicon.png" sizes="16x16">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+
+        <script src="../vendor/angular.ng-modules.js"></script>
+        <script src="../scripts/indexApp.js"></script>
+        <script src="../styles/bootstrap-star-rating/js/star-rating.js" type="text/javascript"></script>
+
+    </head>
+
+    <body>
+
+        <div ng-app="indexApp">
+            <header></header>
+            <div class="jumbotron jumbo">
+                <div class="container restaurant-jumbo">
+                    <table id="jumbo-content">
+                        <tr>
+                            <td>
+                                <img alt="img" src="https://static.delivery.com/merchant_logo.php?id=60981" id="logo">
+                            </td>
+                            <td>
+                                <h2 id="restaurant-name">Restaurant Name</h2>
+                                <input id="rating-stars" class="rating rating-loading" value="5" data-min="0" data-max="5" data-step="0.5" data-size="sm" data-readonly="true" data-show-clear="false" data-show-caption="true">
+                                <p id="price-rating" style="font-weight:600; float:left;">$$$ |&nbsp;</p>
+                                <p id="cuisines" style="font-weight:600; float:left;">Italian, Pizza, American</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="current-wait-time">
+                        <p style="color:#FFFFFF; font-weight:300; margin-top:11%">CURRENT WAIT</p>
+                        <h4 id="wait-time">30 mins</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+<html>
