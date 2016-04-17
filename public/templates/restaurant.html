@@ -46,6 +46,24 @@
             }(document, 'script', 'facebook-jssdk'));
         </script>
 
+        <script>window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+                    t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+
+            t._e = [];
+            t.ready = function(f) {
+                t._e.push(f);
+            };
+
+            return t;
+        }(document, "script", "twitter-wjs"));
+        </script>
+
         <div ng-app="indexApp">
             <header></header>
             <div class="jumbotron jumbo">
@@ -70,6 +88,7 @@
                 </div>
             </div>
             <div class="fb-send" data-href="http://localhost:3000/templates/restaurant.html" data-layout="button_count"></div>
+            <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Check out this restaurant!" data-size="large">Tweet</a>
         </div>
 
     </body>
