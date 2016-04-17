@@ -13,7 +13,8 @@ function search() {
     var deliveryAPI = "https://api.delivery.com/merchant/search/delivery?client_id=YTExMWZlN2E1MTE4YjI1MGM4MzFlYzkzMTM5YzBkN2Uy&merchant_type=R";
     var query = $("#search-input").val();
     var addressQuery = deliveryAPI + "&address=" + query;
-
+    window.sessionStorage.setItem("userAddress", query);
+    
     if (validateAddress(query)) {
         $.getJSON(addressQuery, function (json) {
             var i;

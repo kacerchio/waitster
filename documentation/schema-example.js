@@ -1,41 +1,83 @@
-var restaurantSchema = new Schema({
+/*
+This is a commented schema
+ */
 
-    name: String,
-    id: Number,
-    location: String,
-    phoneNumber: String,
-    logoURL: String,
-    waitTime: Number,
-    rating: Number,
-    isOpen: Boolean,
-    hours: {
-        sunday: {start: String, end: String},
-        monday: {start: String, end: String},
-        tuesday: {start: String, end: String},
-        wednesday: {start: String, end: String},
-        thursday: {start: String, end: String},
-        friday: {start: String, end: String},
-        saturday: {start: String, end: String}
+// This works on all devices/browsers, and uses IndexedDBShim as a final fallback
+var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+if (!window.indexedDB) {
+    window.alert("Your browser doesn't support a stable version of IndexedDB.")
+}
+
+// Open (or create) the database
+var request = indexedDB.open("RestaurantDB", 3);
+
+// Create the schema
+request.onupgradeneeded = function(e) {
+    var db = e.target.result;
+    var store = db.createObjectStore("rests", {keyPath: "id"});
+    store.createIndex("by_name", "name");
+    store.createIndex("by_location", "location");
+    store.createIndex("by_phone", "phone");
+    store.createIndex("by_logoURL", "logoURL");
+    store.createIndex("by_headerURL", "headerURL");
+    store.createIndex("by_waitTime", "waitTime");
+    store.createIndex("by_rating", "rating");
+    store.createIndex("by_priceRating", "priceRating");
+    store.createIndex("by_isOpen", "isOpen");
+    store.createIndex("by_hours", "hours", {multientry: true});
+    store.createIndex("by_cuisines", "cuisines", {multientry: true});
+};
+
+request.onsuccess = function(e) {
+
+    for (var j = 0; j < merch.length; j++) {
+
+        var street = merch[j]["location"]["street"];
+        var state = merch[j]["location"]["state"];
+        var city = merch[j]["location"]["city"];
+        var zip = merch[j]["location"]["zip"];
+        var location = street + "\n" + city + ", " + state + " " + zip;
+
+        //console.log(merch[j]);
+        var rest = {
+            "id": merch[j]["id"],
+            "name": merch[j]["summary"]["name"],
+            "location": location,
+            "phone": merch[j]["summary"]["phone"],
+            "logoURL": merch[j]["summary"]["merchant_logo"],
+            "headerURL": merch[j]["summary"]["header_images"][0]["path"],
+            "waitTime": merch[j]["ordering"]["availability"]["delivery_estimate"],
+            "rating": merch[j]["summary"]["star_ratings"],
+            "priceRating": merch[j]["summary"]["price_rating"],
+            "isOpen": merch[j]["ordering"]["is_open"],
+            "hours": merch[j]["hours"],
+            "cuisine": merch[j]["summary"]["cuisines"]
+        };
+
+        var db = e.target.result;
+        var tx = db.transaction(["rests"], "readwrite");
+
+        tx.oncomplete = function(e) {
+            console.log("Transaction completed: database modification finished.")
+        };
+
+        tx.onerror = function(e) {
+            console.log("Transaction not opened due to error: Duplicate items not allowed.");
+        };
+
+        var store = tx.objectStore("rests");
+        var put = store.put(rest);
+
+        put.onsuccess = function(e) {
+            console.log("Success adding item!");
+        };
+
+        put.onerror = function(e) {
+            console.error("Error Adding an item: ", e);
+        };
     }
+};
 
-
-})
-
- var Restaurant = mongoose.model('Restaurant', restaurantSchema);
-                    var r = new Restaurant;
-                    r.name = 'Azuki Japanese Restaurant';
-                    r.id = 3102;
-                    r.location = '239 PARK S AVE NEW YORK NY 10003';
-                    r.phoneNumber = '555-555-5555';
-                    r.logoURL = 'http://www.azuki-nyc.com/';
-                    r.waitTime = 20;
-                    r.rating = 3.5;
-                    r.isOpen = True;
-                    r.hours.sunday = {'11am', '8pm'};
-                    r.hours.monday = {'11am', '9pm'};
-                    r.hours.tuesday = {'11am', '9pm'};
-                    r.hours.wednesday = {'11am', '9pm'};
-                    r.hours.thursday = {'11am', '9pm'};
-                    r.hours.friday = {'11am', '10pm'};
-                    r.hours.saturday = {'11am', '10pm'};
-                    r.save(callback);
+request.onerror = function() {
+    console.log(request.error);
+};
