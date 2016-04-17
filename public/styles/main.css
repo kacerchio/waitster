@@ -51,6 +51,17 @@ body {
     padding: 20px 10px 20px 10px;
 }
 
+.fb-share-button {
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    float: left;
+    margin-left: 10%;
+    margin-right: 5%;
+}
+
 h2 {
     font-weight: 300;
 }
@@ -167,6 +178,15 @@ h2 {
 
 #search-results-content {
     margin-top: 100px;
+}
+
+.twitter-share-button {
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    float:left;
 }
 
 #valid-address-alert {
