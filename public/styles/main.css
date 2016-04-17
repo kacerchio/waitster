@@ -34,12 +34,13 @@ body {
 
 #current-wait-time {
     text-align: center;
-    height: 150px;
+    height: 100px;
     border-radius: 8px;
     padding: 25px 25px 25px 25px;
-    margin-top: 3%;
     float: right;
     background-color: #e74c3c;
+    display: block;
+    margin-bottom: 15px;
 }
 
 #error-message-content {
@@ -58,8 +59,8 @@ body {
     -o-transform: scale(1.5);
     -moz-transform: scale(1.5);
     float: left;
-    margin-left: 10%;
-    margin-right: 5%;
+    margin-right: 22%;
+    margin-left: 8%;
 }
 
 h2 {
@@ -141,7 +142,7 @@ h2 {
 }
 
 .restaurant-jumbo {
-    margin-top: 150px;
+    margin-top: 125px;
 }
 
 #return-to-search-btn {
@@ -186,7 +187,7 @@ h2 {
     -webkit-transform: scale(1.5);
     -o-transform: scale(1.5);
     -moz-transform: scale(1.5);
-    float:left;
+    float: left;
 }
 
 #valid-address-alert {
@@ -196,6 +197,11 @@ h2 {
 #wait-time {
     color: #FFFFFF;
     text-align: center;
+}
+
+#wait-time-share-btns {
+    float: right;
+    margin-top: 3%;
 }
 
 #wait-time-status {

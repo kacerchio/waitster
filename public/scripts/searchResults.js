@@ -5,7 +5,7 @@ $(document).ready(
 var merch = JSON.parse(window.sessionStorage.getItem("merchants"));
 console.log(merch);
 
-var userAddress = JSON.parse(window.sessionStorage.getItem("userAddress"));
+var userAddress = window.sessionStorage.getItem("userAddress");
 console.log(userAddress);
 
 // This works on all devices/browsers, and uses IndexedDBShim as a final fallback
@@ -113,11 +113,11 @@ function onLoadHandler(){
 
         var isOpen = merch[i]["ordering"]["is_open"];
         if (isOpen == true) {
-            template.querySelector("#is-open").innerText += "OPEN";
+            template.querySelector("#is-open").innerText += "OPEN NOW";
             template.querySelector("#is-open").style.color = "#27ae60";
         }
         else {
-            template.querySelector("#is-open").innerText = "FALSE";
+            template.querySelector("#is-open").innerText = "CLOSED";
             template.querySelector("#is-open").style.color = "#c0392b";
         }
 
