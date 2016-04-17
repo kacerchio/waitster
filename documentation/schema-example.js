@@ -1,5 +1,8 @@
 /*
-This is a commented schema
+ * This is a commented schema of our application's database. We are using
+ * IndexedDB, which is a database that lives browser-side and is unique to your
+ * webapp's domain. More documentation about IndexedDB can be found at:
+ * https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
  */
 
 // This works on all devices/browsers, and uses IndexedDBShim as a final fallback
@@ -28,6 +31,7 @@ request.onupgradeneeded = function(e) {
     store.createIndex("by_cuisines", "cuisines", {multientry: true});
 };
 
+// Store each restaurant's information into the database upon successfully creating it
 request.onsuccess = function(e) {
 
     for (var j = 0; j < merch.length; j++) {
