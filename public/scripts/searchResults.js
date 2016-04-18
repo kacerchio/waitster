@@ -3,11 +3,12 @@ $(document).ready(
 );
 
 var merch = JSON.parse(window.sessionStorage.getItem("merchants"));
-console.log(merch);
+//console.log(merch);
 
 var userAddress = window.sessionStorage.getItem("userAddress");
 console.log(userAddress);
-//console.log(merch);
+
+var waitTime;
 
 // This works on all devices/browsers, and uses IndexedDBShim as a final fallback
 var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
@@ -46,7 +47,7 @@ request.onsuccess = function(e) {
         var location = street + "\n" + city + ", " + state + " " + zip;
         var deliveryTime = merch[j]["ordering"]["availability"]["delivery_estimate"];
         waitTime = calcWaitTime(location,deliveryTime);
-        //console.log(merch[j]);
+
         var rest = {
             "id": merch[j]["id"],
             "name": merch[j]["summary"]["name"],
@@ -66,7 +67,7 @@ request.onsuccess = function(e) {
         var tx = db.transaction(["rests"], "readwrite");
 
         tx.oncomplete = function(e) {
-          //  console.log("Transaction completed: database modification finished.")
+            console.log("Transaction completed: database modification finished.")
         };
 
         tx.onerror = function(e) {
@@ -77,7 +78,7 @@ request.onsuccess = function(e) {
         var put = store.put(rest);
 
         put.onsuccess = function(e) {
-           // console.log("Success adding item!");
+            console.log("Success adding item!");
         };
 
         put.onerror = function(e) {
@@ -89,31 +90,6 @@ request.onsuccess = function(e) {
 request.onerror = function() {
     console.log(request.error);
 };
-
-var time;
-
-function calcWaitTime(location, deliveryTime) {
-    //console.log(time);
-    var userAddress = window.sessionStorage.getItem("userAddress");
-    var googleAPIlink1 = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=';
-    var googleAPIlink2 = '&destinations=';
-    var googleAPIkey = '&key=AIzaSyCHicI9EkQxA2_c1lr4NYmDsOV7ss0JbJw';
-    var restaurantAddress = location;
-    var distanceQuery = googleAPIlink1 + userAddress + googleAPIlink2 + restaurantAddress + googleAPIkey;
-    $.ajax({
-        async: false,
-        url: distanceQuery,
-        success: function(json) {
-        time = json.rows[0]["elements"][0]['duration']['value'];
-        time = Math.floor(time / 60);
-
-        }
-    });
-    if (deliveryTime - time > 0) {
-        return deliveryTime-time;
-    }
-    return deliveryTime;
-}
 
 function onLoadHandler(){
 
@@ -167,4 +143,26 @@ function onLoadHandler(){
 
         content.appendChild(template);
     }
+}
+
+var driveTime;
+
+function calcWaitTime(location, deliveryTime) {
+    //console.log(time);
+    var googleAPIlink1 = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=';
+    var googleAPIlink2 = '&destinations=';
+    var googleAPIkey = '&key=AIzaSyCnbPRMgv_MDYaPqiq2mVYIpWUy-m_k3Jc';
+    var distanceQuery = googleAPIlink1 + userAddress + googleAPIlink2 + location + googleAPIkey;
+    $.ajax({
+        async: false,
+        url: distanceQuery,
+        success: function(json) {
+            driveTime = json.rows[0]["elements"][0]["duration"]["value"];
+            driveTime = Math.floor(driveTime / 60);
+        }
+    });
+    if (deliveryTime - driveTime > 0) {
+        return deliveryTime-driveTime;
+    }
+    return deliveryTime;
 }
