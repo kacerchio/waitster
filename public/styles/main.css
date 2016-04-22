@@ -63,6 +63,20 @@ body {
     margin-left: 8%;
 }
 
+.half {
+    position:relative;
+}
+
+.half:after {
+    content:'';
+    position:absolute;
+    z-index:1;
+    background:white;
+    width: 50%;
+    height: 100%;
+    left: 47%;
+}
+
 h2 {
     font-weight: 300;
 }

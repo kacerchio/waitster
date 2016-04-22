@@ -1,16 +1,11 @@
-$(document).ready(
-    onLoadHandler
-);
-
 var merch = JSON.parse(window.sessionStorage.getItem("merchants"));
 //console.log(merch);
 
 var userAddress = window.sessionStorage.getItem("userAddress");
-console.log(userAddress);
+//console.log(userAddress);
 
 var waitTime;
 
-// This works on all devices/browsers, and uses IndexedDBShim as a final fallback
 var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
 if (!window.indexedDB) {
     window.alert("Your browser doesn't support a stable version of IndexedDB.")
@@ -38,6 +33,9 @@ request.onupgradeneeded = function(e) {
 
 request.onsuccess = function(e) {
 
+    var numResults = merch.length;
+    document.getElementById("num-results").innerText = numResults + " results found";
+
     for (var j = 0; j < merch.length; j++) {
 
         var street = merch[j]["location"]["street"];
@@ -45,8 +43,9 @@ request.onsuccess = function(e) {
         var city = merch[j]["location"]["city"];
         var zip = merch[j]["location"]["zip"];
         var location = street + "\n" + city + ", " + state + " " + zip;
+
         var deliveryTime = merch[j]["ordering"]["availability"]["delivery_estimate"];
-        waitTime = calcWaitTime(location,deliveryTime);
+        waitTime = calcWaitTime(location, deliveryTime);
 
         var rest = {
             "id": merch[j]["id"],
@@ -82,39 +81,26 @@ request.onsuccess = function(e) {
         };
 
         put.onerror = function(e) {
-            console.error("Error Adding an item: ", e);
+            console.error("Error adding item: ", e);
         };
-    }
-};
-
-request.onerror = function() {
-    console.log(request.error);
-};
-
-function onLoadHandler(){
-
-    var numResults = merch.length;
-    document.getElementById("num-results").innerText = numResults + " results found";
-
-    for (var i = 0; i < merch.length; i++) {
 
         var content = document.getElementById("search-results-content");
         var template = document.getElementById("restaurant-card-template").content.cloneNode(true);
 
-        var name = merch[i]["summary"]["name"];
+        var name = rest.name;
         template.querySelector("#restaurant-name").innerText = name;
 
-        var rating = merch[i]["summary"]["star_ratings"];
-        template.querySelector("#rating-stars").value = rating;
+        var rating = rest.rating;
+        template.querySelector("#star-rating").innerText = "Star Rating: " + rating;
 
-        var priceRating = merch[i]["summary"]["price_rating"];
+        var priceRating = rest.priceRating;
         while (priceRating != 0) {
             template.querySelector("#price-rating").innerText += "$";
             priceRating -= 1;
         }
         template.querySelector("#price-rating").innerText += " | ";
 
-        var isOpen = merch[i]["ordering"]["is_open"];
+        var isOpen = rest.isOpen;
         if (isOpen == true) {
             template.querySelector("#is-open").innerText += "OPEN NOW";
             template.querySelector("#is-open").style.color = "#27ae60";
@@ -124,26 +110,27 @@ function onLoadHandler(){
             template.querySelector("#is-open").style.color = "#c0392b";
         }
 
-        var street = merch[i]["location"]["street"];
-        var state = merch[i]["location"]["state"];
-        var city = merch[i]["location"]["city"];
-        var zip = merch[i]["location"]["zip"];
-        var location = street + "\n" + city + ", " + state + " " + zip;
-        template.querySelector("#location").innerText = location;
+        var addr = rest.location;
+        addr = toTitleCase(addr);
+        template.querySelector("#location").innerText = addr;
 
-        var phoneNumber = merch[i]["summary"]["phone"];
+        var phoneNumber = rest.phone;
         template.querySelector("#phone-number").innerText = "Tel: " + phoneNumber;
 
-        var merchLogoPath = merch[i]["summary"]["merchant_logo"];
-        template.querySelector("#merch-logo").src = merchLogoPath;
-    
-        var deliveryEstimate = merch[i]["ordering"]["availability"]["delivery_estimate"];
-        waitTime = calcWaitTime(location, deliveryEstimate);
+        var logoURL = rest.logoURL;
+        template.querySelector("#merch-logo").src = logoURL;
+
+        var waitTime = rest.waitTime;
         template.querySelector("#wait-time").innerText = waitTime + " mins";
 
         content.appendChild(template);
     }
-}
+
+};
+
+request.onerror = function() {
+    console.log(request.error);
+};
 
 var driveTime;
 
@@ -166,3 +153,8 @@ function calcWaitTime(location, deliveryTime) {
     }
     return deliveryTime;
 }
+
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
