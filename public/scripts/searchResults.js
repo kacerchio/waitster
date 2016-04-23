@@ -142,7 +142,7 @@ function calcWaitTime(location, deliveryTime) {
     var googleAPIlink1 = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=';
     var googleAPIlink2 = '&destinations=';
     var googleAPIkey = '&key=AIzaSyCnbPRMgv_MDYaPqiq2mVYIpWUy-m_k3Jc';
-    var distanceQuery = googleAPIlink1 + userAddress + googleAPIlink2 + location + googleAPIkey;
+    var distanceQuery = googleAPIlink1 + userAddress + googleAPIlwink2 + location + googleAPIkey;
     $.ajax({
         async: false,
         url: distanceQuery,
