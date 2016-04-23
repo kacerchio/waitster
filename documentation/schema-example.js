@@ -11,7 +11,7 @@ if (!window.indexedDB) {
     window.alert("Your browser doesn't support a stable version of IndexedDB.")
 }
 
-// Open (or create) the database
+// Open the database (on first call, it will create the database)
 var request = indexedDB.open("RestaurantDB", 3);
 
 // Create the schema
@@ -29,6 +29,7 @@ request.onupgradeneeded = function(e) {
     store.createIndex("by_isOpen", "isOpen");
     store.createIndex("by_hours", "hours", {multientry: true});
     store.createIndex("by_cuisines", "cuisines", {multientry: true});
+    store.createIndex("by_weekly_waitTime", "weeklyWaitTime", {multientry: true});
 };
 
 // Store each restaurant's information into the database upon successfully creating it
