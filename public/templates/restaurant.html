@@ -73,18 +73,18 @@
 
         <div ng-app="indexApp">
             <header></header>
-            <div class="jumbotron jumbo">
+            <div class="jumbotron jumbo" id="jumbo">
                 <div class="container restaurant-jumbo">
                     <table id="jumbo-content">
                         <tr>
                             <td>
-                                <img alt="img" src="https://static.delivery.com/merchant_logo.php?id=60981" id="logo">
+                                <img alt="img" src="" id="logo">
                             </td>
                             <td>
-                                <h2 id="restaurant-name">Restaurant Name</h2>
-                                <input id="rating-stars" class="rating rating-loading" value="5" data-min="0" data-max="5" data-step="0.5" data-size="sm" data-readonly="true" data-show-clear="false" data-show-caption="false">
-                                <p id="price-rating" style="font-weight:600; float:left;">$$$ |&nbsp;</p>
-                                <p id="cuisines" style="font-weight:600; float:left;">Italian, Pizza, American</p>
+                                <h2 id="restaurant-name" style="color:#FFFFFF;"></h2>
+                                <p id="star-rating" style="color:#FFFFFF;"></p>
+                                <p id="price-rating" style="float:left; color:#FFFFFF;"></p>
+                                <p id="cuisines" style="float:left; color:#FFFFFF;"></p>
                             </td>
                         </tr>
                     </table>
@@ -93,7 +93,7 @@
                             <td>
                                 <div id="current-wait-time">
                                     <p style="color:#FFFFFF; font-weight:300; margin-top:-5%">CURRENT WAIT</p>
-                                    <h4 id="wait-time">30 mins</h4>
+                                    <h4 id="wait-time"></h4>
                                 </div>
                                 <div>
                                     <div class="fb-share-button" data-href="http://localhost:3000/templates/restaurant.html" data-layout="button"></div>
@@ -104,6 +104,7 @@
                     </table>
                 </div>
             </div>
+            <br>
             <div class="row col-centered">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
@@ -123,9 +124,9 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <h4>Map & Contact</h4><br>
-                            <p id="location">6 Buswell St, Boston, MA 02215</p>
-                            <p id="phone-number">Tel: 617-353-4357</p>
-                            <img id="map" width="100%" src="http://maps.googleapis.com/maps/api/staticmap?center=Albany,+NY&zoom=13&scale=false&size=600x200&maptype=roadmap&key=AIzaSyCnbPRMgv_MDYaPqiq2mVYIpWUy-m_k3Jc&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xf12403%7Clabel:%7CAlbany,+NY" alt="Google Map">
+                            <p id="location"></p>
+                            <p id="phone-number"></p>
+                            <img id="map" width="100%" src="" alt="Google Map">
                         </div>
                     </div>
                 </div>

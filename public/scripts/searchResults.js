@@ -11,7 +11,7 @@ if (!window.indexedDB) {
     window.alert("Your browser doesn't support a stable version of IndexedDB.")
 }
 
-// Open (or create) the database
+// Open the database (on first call, it will create the database)
 var request = indexedDB.open("RestaurantDB", 3);
 
 // Create the schema
@@ -89,6 +89,8 @@ request.onsuccess = function(e) {
 
         var name = rest.name;
         template.querySelector("#restaurant-name").innerText = name;
+        template.querySelector("#restLink").href = "restaurant.html" + "?id=" + rest.id;
+
 
         var rating = rest.rating;
         template.querySelector("#star-rating").innerText = "Star Rating: " + rating;

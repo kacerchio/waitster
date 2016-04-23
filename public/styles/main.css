@@ -90,7 +90,7 @@ h2 {
 
 .jumbo {
     background-image: url(https://s3.amazonaws.com/s3.delivery.com/images/merchant-header-images/1432223335555dfe67b18cc.jpg);
-    background-size: 100%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     padding-bottom: 20px;
 }
