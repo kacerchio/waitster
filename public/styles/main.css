@@ -89,7 +89,6 @@ h2 {
 }
 
 .jumbo {
-    background-image: url(https://s3.amazonaws.com/s3.delivery.com/images/merchant-header-images/1432223335555dfe67b18cc.jpg);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     padding-bottom: 20px;
@@ -156,7 +155,7 @@ h2 {
 }
 
 .restaurant-jumbo {
-    margin-top: 125px;
+    margin-top: 75px;
 }
 
 #return-to-search-btn {
