@@ -29,6 +29,7 @@ request.onupgradeneeded = function(e) {
     store.createIndex("by_isOpen", "isOpen");
     store.createIndex("by_hours", "hours", {multientry: true});
     store.createIndex("by_cuisines", "cuisines", {multientry: true});
+    store.createIndex("by_weekly_waitTime", "weeklyWaitTime", {multientry: true});
 };
 
 request.onsuccess = function(e) {
@@ -150,13 +151,16 @@ function calcWaitTime(location, deliveryTime) {
             driveTime = Math.floor(driveTime / 60);
         }
     });
-    if (deliveryTime - driveTime > 0) {
-        return deliveryTime-driveTime;
+    if (deliveryTime - driveTime - 15 > 0) {
+        return deliveryTime - driveTime - 15;
+    } else {
+        return 0;
     }
-    return deliveryTime;
 }
 
 function toTitleCase(str) {
-    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    return str.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
 }
 
