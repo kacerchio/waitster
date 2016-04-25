@@ -89,7 +89,7 @@ h2 {
 }
 
 .jumbo {
-    background-size: 100% 100%;
+    background-size: cover;
     background-repeat: no-repeat;
     padding-bottom: 20px;
 }
